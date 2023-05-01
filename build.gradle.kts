@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.simpletactics"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
 
 plugins {
 	java
@@ -22,8 +21,12 @@ apply(plugin = "io.spring.dependency-management")
 
 java {
 
-	java.sourceCompatibility = JavaVersion.VERSION_17
-	java.targetCompatibility = JavaVersion.VERSION_17
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(17))
+	}
+
+	// java.sourceCompatibility = JavaVersion.VERSION_17
+	// java.targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
 	withJavadocJar()
