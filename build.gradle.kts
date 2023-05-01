@@ -22,12 +22,8 @@ apply(plugin = "io.spring.dependency-management")
 
 java {
 
-	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(8))
-	}
-
-	// sourceCompatibility = JavaVersion.VERSION_17
-	// targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 
 
 	withSourcesJar()
