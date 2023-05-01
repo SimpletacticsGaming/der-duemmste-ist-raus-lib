@@ -1,12 +1,24 @@
-plugins {
-	java
-	id("org.springframework.boot") version "3.0.6"
-	id("io.spring.dependency-management") version "1.1.0"
-}
-
 group = "de.simpletactics"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
+
+plugins {
+	java
+	`maven-publish`
+
+	id("org.springframework.boot")
+	id("com.gorylenko.gradle-git-properties")
+	id("com.github.ben-manes.versions")
+	id("org.openapi.generator")
+}
+apply(plugin = "io.spring.dependency-management")
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+	withSourcesJar()
+	withJavadocJar()
+}
 
 repositories {
 	mavenCentral()
@@ -23,4 +35,15 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.register("bootRunLocal") {
+	group = "application"
+	description = "Runs the Spring Boot application with the local profile"
+	doFirst {
+		tasks.bootRun.configure {
+			systemProperty("spring.profiles.active", "local,secrets")
+		}
+	}
+	finalizedBy("bootRun")
 }
