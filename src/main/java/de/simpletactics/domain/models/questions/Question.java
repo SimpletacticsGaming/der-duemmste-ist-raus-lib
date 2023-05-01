@@ -1,7 +1,5 @@
 package de.simpletactics.domain.models.questions;
 
-import lombok.Getter;
-
 public class Question {
 
   private int id;

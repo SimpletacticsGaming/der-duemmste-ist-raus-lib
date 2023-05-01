@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
-import lombok.Data;
-import org.springframework.context.annotation.Bean;
 
 public class Game {
 

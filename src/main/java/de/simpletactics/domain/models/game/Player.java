@@ -1,7 +1,5 @@
 package de.simpletactics.domain.models.game;
 
-import lombok.Data;
-
 public class Player {
 
   private String name;
