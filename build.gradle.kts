@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 group = "de.simpletactics"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -5,6 +7,11 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 plugins {
 	java
 	`maven-publish`
+
+	// Kotlin
+	kotlin("jvm")
+	kotlin("plugin.spring")
+	kotlin("plugin.noarg")
 
 	id("org.springframework.boot")
 	id("com.gorylenko.gradle-git-properties")
@@ -31,6 +38,17 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		freeCompilerArgs = listOf("-Xjsr305=strict")
+		jvmTarget = "17"
+	}
+}
+
+tasks.getByName<Jar>("jar") {
+	enabled = false
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
@@ -41,7 +59,7 @@ tasks.wrapper {
 }
 
 tasks.bootJar {
-	mainClass.set("de.simpletactics.der-duemmste-ist-raus-lib.Application")
+	mainClass.set("de.simpletactics.Application")
 }
 
 tasks.register("bootRunLocal") {
