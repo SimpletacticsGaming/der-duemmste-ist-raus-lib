@@ -22,9 +22,8 @@ apply(plugin = "io.spring.dependency-management")
 
 java {
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
-
+	java.sourceCompatibility = JavaVersion.VERSION_17
+	java.targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
 	withJavadocJar()
@@ -75,3 +74,17 @@ tasks.register("bootRunLocal") {
 	}
 	finalizedBy("bootRun")
 }
+
+publishing {
+	publications {
+		create<MavenPublication>("maven") {
+			groupId = "de.simpletactics"
+			artifactId = "library"
+			version = "0.1"
+
+			from(components["java"])
+		}
+	}
+}
+
+
