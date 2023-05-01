@@ -2,7 +2,6 @@ package de.simpletactics.domain.models.questions;
 
 import lombok.Getter;
 
-@Getter
 public class Question {
 
   private int id;
@@ -13,6 +12,10 @@ public class Question {
     this.id = id;
     this.question = question;
     this.answer = answer;
+  }
+
+  public int getId() {
+    return id;
   }
 
   @Override

@@ -2,7 +2,6 @@ package de.simpletactics.domain.models.game;
 
 import lombok.Data;
 
-@Data
 public class Player {
 
   private String name;
@@ -21,6 +20,18 @@ public class Player {
     this.wrongQuestionsInRound = 0;
     this.correctQuestionsInGame = 0;
     this.wrongQuestionsInGame = 0;
+    this.state = state;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public PlayerState getState() {
+    return state;
+  }
+
+  public void setState(PlayerState state) {
     this.state = state;
   }
 

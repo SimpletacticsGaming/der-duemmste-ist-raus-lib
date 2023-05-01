@@ -12,7 +12,6 @@ import java.util.Stack;
 import java.util.UUID;
 import lombok.Data;
 
-@Data
 public class Game {
 
   private final QuestionPort questionPort;
@@ -42,6 +41,22 @@ public class Game {
     this.gamePort = gamePort;
   }
 
+  public String getGameId() {
+    return gameId;
+  }
+
+  public int getBankAmount() {
+    return bankAmount;
+  }
+
+  public int getTurns() {
+    return turns;
+  }
+
+  public Player getWinner() {
+    return winner;
+  }
+
   public static Game createGame(Player moderator, QuestionPort questionPort, LinkingPort linkingPort,
       GamePort gamePort) {
     return new Game(moderator, questionPort, linkingPort, gamePort);
@@ -62,7 +77,7 @@ public class Game {
   }
 
   public Game correctAnswer(boolean activeRound) throws GameException {
-    this.getCurrPlayer().addCorrectAnwser();
+    this.currPlayer.addCorrectAnwser();
     bankService.riseBankCounter();
     updateBankCounters();
     if (activeRound) {
@@ -72,7 +87,7 @@ public class Game {
   }
 
   public Game wrongAnswer(boolean activeRound) throws GameException {
-    this.getCurrPlayer().addWrongAnwser();
+    this.currPlayer.addWrongAnwser();
     bankService.resetBankCounter();
     updateBankCounters();
     if (activeRound) {
@@ -92,14 +107,14 @@ public class Game {
   }
 
   public Game kickPlayer(String playerName) {
-    this.getPlayers().stream().filter(player -> player.getName().equalsIgnoreCase(playerName)).findFirst()
+    this.players.stream().filter(player -> player.getName().equalsIgnoreCase(playerName)).findFirst()
         .ifPresent(player -> player.setState(PlayerState.KICKED));
     return this;
   }
 
   public Game setGameWinner(String playerName) {
-    this.getPlayers().stream().filter(player -> player.getName().equalsIgnoreCase(playerName)).findFirst()
-        .ifPresent(this::setWinner);
+    this.players.stream().filter(player -> player.getName().equalsIgnoreCase(playerName)).findFirst()
+        .ifPresent(player -> this.winner = player);
     return this;
   }
 
@@ -111,7 +126,7 @@ public class Game {
     if (questions.size() > 0) {
       this.turns++;
       Question nextQuestion = questions.pop();
-      this.setCurrQuestion(nextQuestion);
+      this.currQuestion = nextQuestion;
       linkQuestion(nextQuestion.getId());
       selectNextPlayer();
       if (questions.size() < 2) {
@@ -127,10 +142,10 @@ public class Game {
   }
 
   private void selectNextPlayer() throws GameException {
-    for (int i = 0; i < this.getPlayers().size(); i++) {
-      Player currPlayer = this.getPlayers().get(currPlayerIndex % this.getPlayers().size());
+    for (int i = 0; i < this.players.size(); i++) {
+      Player currPlayer = this.players.get(currPlayerIndex % this.players.size());
       if (currPlayer.getState() == PlayerState.ACTIVE) {
-        this.setCurrPlayer(currPlayer);
+        this.currPlayer = currPlayer;
         currPlayerIndex++;
         break;
       }
@@ -139,11 +154,11 @@ public class Game {
   }
 
   private void resetPlayerCounts() {
-    this.getPlayers().forEach(Player::resetCounterForNextRound);
+    this.players.forEach(Player::resetCounterForNextRound);
   }
 
   private void linkQuestion(int questionId) {
-    linkingPort.linkQuestionToGame(getGameId(), questionId);
+    linkingPort.linkQuestionToGame(gameId, questionId);
   }
 
   private void updateBankCounters() {
