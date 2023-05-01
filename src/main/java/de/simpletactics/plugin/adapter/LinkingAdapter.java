@@ -4,24 +4,18 @@ import de.simpletactics.domain.services.port.LinkingPort;
 import de.simpletactics.plugin.database.DataBaseCon;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LinkingAdapter implements LinkingPort {
 
-  private DataBaseCon con;
-
-  public LinkingAdapter(DataBaseCon con) {
-    this.con = con;
-  }
+  private JdbcTemplate jdbcTemplate;
 
   @Override
   public void linkQuestionToGame(String gameId, int questionId) {
-    try {
-      Statement state = con.getCon().createStatement();
-      state.executeUpdate("DELETE FROM quiz_connection WHERE frage_id = " + questionId + "");
-      state.executeUpdate(
+      jdbcTemplate.execute("DELETE FROM quiz_connection WHERE frage_id = " + questionId + "");
+      jdbcTemplate.execute(
           "INSERT INTO quiz_connection (game_id, frage_id) VALUES ('" + gameId + "', '" + questionId + "')");
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
   }
 }

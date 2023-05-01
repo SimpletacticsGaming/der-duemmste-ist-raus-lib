@@ -7,59 +7,51 @@ import de.simpletactics.plugin.database.DataBaseCon;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class QuestionAdapter implements QuestionPort {
 
   private final int DEFAULT_AMOUNT_OF_QUESTIONS = 20;
-  private DataBaseCon con;
-
-  public QuestionAdapter(DataBaseCon con) {
-    this.con = con;
-  }
+  private JdbcTemplate jdbcTemplate;
 
   @Override
-  public Stack<Question> loadQuestions(int minQuestionAge) throws GameException {
+  public Stack<Question> loadQuestions(int minQuestionAge) {
     Stack<Question> questions = new Stack<>();
-    try {
-      Statement state = con.getCon().createStatement();
-      if (areEnoughQuestionsInDatabase(state, minQuestionAge)) {
-        ResultSet rs = state.executeQuery(
+      if (areEnoughQuestionsInDatabase(minQuestionAge)) {
+        List<Map<String, Object>> rs = jdbcTemplate.queryForList(
             "SELECT f.* FROM quiz_fragen AS f LEFT JOIN quiz_connection AS c ON f.id = c.frage_id "
                 + "LEFT JOIN quiz_game AS g ON c.game_id = g.id WHERE g.date is NULL OR DATEDIFF(NOW(),g.date) >= "
                 + minQuestionAge + " ORDER BY RAND() LIMIT " + DEFAULT_AMOUNT_OF_QUESTIONS);
-        rs.next();
-        do {
-          int id = rs.getInt("id");
-          String question = rs.getString("frage");
-          String answer = rs.getString("antwort");
-          questions.add(new Question(id, question, answer));
-        } while (rs.next());
 
-        rs.close();
-        state.close();
+        rs.forEach(entryMap -> {
+          int id = Integer.parseInt(String.valueOf(entryMap.get("id")));
+          String question = String.valueOf(entryMap.get("frage"));
+          String answer = String.valueOf(entryMap.get("antwort"));
+          questions.add(new Question(id, question, answer));
+        });
+
         return questions;
       } else {
-        state.close();
         // TODO: Decrease minQuestionAge in proper order
         return loadQuestions(0);
       }
-    } catch (SQLException e) {
-      throw new GameException(e.getMessage());
-    }
   }
 
-  private boolean areEnoughQuestionsInDatabase(Statement statement, int minQuestionAge) throws SQLException {
-    return size(statement, minQuestionAge) >= DEFAULT_AMOUNT_OF_QUESTIONS;
+  private boolean areEnoughQuestionsInDatabase(int minQuestionAge) {
+    return size(minQuestionAge) >= DEFAULT_AMOUNT_OF_QUESTIONS;
   }
 
-  private int size(Statement state, int minQuestionAge) throws SQLException {
-    ResultSet rs = state.executeQuery(
+  private int size(int minQuestionAge) {
+    List<Map<String, Object>> result = jdbcTemplate.queryForList(
         "SELECT COUNT(f.id) AS count FROM quiz_fragen AS f LEFT JOIN quiz_connection AS c ON f.id = c.frage_id "
             + "LEFT JOIN quiz_game AS g ON c.game_id = g.id WHERE g.date is NULL OR DATEDIFF(NOW(),g.date) >= "
             + minQuestionAge + ";");
-    rs.next();
-    return rs.getInt("count");
+    return Integer.parseInt(String.valueOf(result.get(0).get("count")));
   }
 
 }
