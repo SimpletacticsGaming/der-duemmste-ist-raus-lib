@@ -35,6 +35,15 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+tasks.wrapper {
+	val versionGradle: String by project
+	gradleVersion = versionGradle
+}
+
+tasks.bootJar {
+	mainClass.set("de.simpletactics.der-duemmste-ist-raus-lib.Application")
+}
+
 tasks.register("bootRunLocal") {
 	group = "application"
 	description = "Runs the Spring Boot application with the local profile"
