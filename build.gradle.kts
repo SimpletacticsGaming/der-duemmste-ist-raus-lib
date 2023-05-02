@@ -81,7 +81,7 @@ publishing {
 	publications {
 		create<MavenPublication>("maven") {
 			groupId = "de.simpletactics"
-			artifactId = "library"
+			artifactId = "der-duemmste-ist-raus-lib"
 			version = version
 
 			from(components["java"])
