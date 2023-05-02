@@ -76,3 +76,15 @@ tasks.register("bootRunLocal") {
 	}
 	finalizedBy("bootRun")
 }
+
+publishing {
+	publications {
+		create<MavenPublication>("maven") {
+			groupId = "de.simpletactics"
+			artifactId = "library"
+			version = version
+
+			from(components["java"])
+		}
+	}
+}
