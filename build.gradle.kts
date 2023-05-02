@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.simpletactics"
@@ -23,8 +24,8 @@ java {
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
 
-	//withSourcesJar()
-	//withJavadocJar()
+	withSourcesJar()
+	withJavadocJar()
 }
 
 repositories {
@@ -45,9 +46,9 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
-// tasks.getByName<Jar>("jar") {
-// 	enabled = false
-// }
+tasks.getByName<Jar>("jar") {
+ 	enabled = false
+ }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
@@ -63,6 +64,8 @@ tasks.bootJar {
 }
 
 tasks.jar {
+	enabled = true
+	archiveClassifier.set("")
 	manifest.attributes["Main-Class"] = "de.simpletactics.Application"
 }
 
@@ -83,7 +86,6 @@ publishing {
 			groupId = "de.simpletactics"
 			artifactId = "der-duemmste-ist-raus-lib"
 			version = version
-
 			from(components["java"])
 		}
 	}
