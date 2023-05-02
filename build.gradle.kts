@@ -1,14 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.simpletactics"
-version = "0.0.1-SNAPSHOT"
-
-tasks.wrapper {
-	gradleVersion = "8.1.1"
-	// You can either download the binary-only version of Gradle (BIN) or
-	// the full version (with sources and documentation) of Gradle (ALL)
-	distributionType = Wrapper.DistributionType.ALL
-}
+version = "0.0.1"
 
 plugins {
 	java
@@ -27,13 +20,8 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 java {
-
-	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
-	}
-
-	// java.sourceCompatibility = JavaVersion.VERSION_17
-	// java.targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
 	withJavadocJar()
@@ -57,9 +45,9 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
-tasks.getByName<Jar>("jar") {
-	enabled = false
-}
+// tasks.getByName<Jar>("jar") {
+// 	enabled = false
+// }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
@@ -74,6 +62,10 @@ tasks.bootJar {
 	mainClass.set("de.simpletactics.Application")
 }
 
+tasks.jar {
+	manifest.attributes["Main-Class"] = "de.simpletactics.Application"
+}
+
 tasks.register("bootRunLocal") {
 	group = "application"
 	description = "Runs the Spring Boot application with the local profile"
@@ -84,17 +76,3 @@ tasks.register("bootRunLocal") {
 	}
 	finalizedBy("bootRun")
 }
-
-publishing {
-	publications {
-		create<MavenPublication>("maven") {
-			groupId = "de.simpletactics"
-			artifactId = "library"
-			version = "0.1"
-
-			from(components["java"])
-		}
-	}
-}
-
-
