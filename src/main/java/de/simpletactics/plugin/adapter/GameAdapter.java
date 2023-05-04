@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameAdapter implements GamePort {
 
+  @Autowired
   private JdbcTemplate jdbcTemplate;
 
   @Override
