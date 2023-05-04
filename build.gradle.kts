@@ -34,8 +34,8 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-	implementation("org.flywaydb:flyway-core")
-	implementation("org.flywaydb:flyway-mysql")
+	// implementation("org.flywaydb:flyway-core")
+	// implementation("org.flywaydb:flyway-mysql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
