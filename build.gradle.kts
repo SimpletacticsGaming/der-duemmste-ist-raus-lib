@@ -60,6 +60,7 @@ tasks.wrapper {
 }
 
 tasks.bootJar {
+	enabled = false
 	mainClass.set("de.simpletactics.Application")
 }
 
