@@ -16,6 +16,14 @@ public class Question {
     return id;
   }
 
+  public String getQuestion() {
+    return question;
+  }
+
+  public String getAnswer() {
+    return answer;
+  }
+
   @Override
   public String toString() {
     return "Question{" +
