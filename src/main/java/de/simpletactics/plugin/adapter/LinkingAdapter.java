@@ -4,12 +4,14 @@ import de.simpletactics.domain.services.port.LinkingPort;
 import de.simpletactics.plugin.database.DataBaseCon;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LinkingAdapter implements LinkingPort {
 
+  @Autowired
   private JdbcTemplate jdbcTemplate;
 
   @Override

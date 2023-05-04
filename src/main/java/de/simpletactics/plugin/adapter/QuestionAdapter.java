@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 public class QuestionAdapter implements QuestionPort {
 
   private final int DEFAULT_AMOUNT_OF_QUESTIONS = 20;
+
+  @Autowired
   private JdbcTemplate jdbcTemplate;
 
   @Override
