@@ -24,8 +24,8 @@ public class GameAdapter implements GamePort {
   @Override
   public void saveFinishedGame(Game game) {
       jdbcTemplate.execute(
-          "INSERT INTO quiz_game_finished (id,winner,bank,turns,date) VALUES (" + game.getGameId() + ", '"
-              + game.getWinner()
+          "INSERT INTO quiz_game_finished (id,winner,bank,turns,date) VALUES ('" + game.getGameId() + "', '"
+              + game.getWinner().getName()
               + "', '" + game.getBankAmount() + "', '" + game.getTurns() + "')");
   }
 }
