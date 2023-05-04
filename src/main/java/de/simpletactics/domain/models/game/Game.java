@@ -56,6 +56,22 @@ public class Game {
     return winner;
   }
 
+  public Question getCurrQuestion() {
+    return currQuestion;
+  }
+
+  public int getBankCounter() {
+    return bankCounter;
+  }
+
+  public List<Player> getPlayers() {
+    return players;
+  }
+
+  public Player getCurrPlayer() {
+    return currPlayer;
+  }
+
   public static Game createGame(Player moderator, QuestionPort questionPort, LinkingPort linkingPort,
       GamePort gamePort) {
     return new Game(moderator, questionPort, linkingPort, gamePort);
