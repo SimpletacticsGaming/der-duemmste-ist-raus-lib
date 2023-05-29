@@ -72,6 +72,8 @@ public class Game {
     return currPlayer;
   }
 
+  public List<Integer> getAllGamePoints() { return bankService.getPoints(); }
+
   public static Game createGame(Player moderator, QuestionPort questionPort, LinkingPort linkingPort,
       GamePort gamePort) {
     return new Game(moderator, questionPort, linkingPort, gamePort);

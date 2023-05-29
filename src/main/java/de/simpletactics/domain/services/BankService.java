@@ -1,8 +1,10 @@
 package de.simpletactics.domain.services;
 
+import java.util.List;
+
 public class BankService {
 
-  private final int[] points = {1, 2, 4, 6, 9, 12, 15, 18, 21, 25};
+  private final List<Integer> points = List.of(1, 2, 4, 6, 9, 12, 15, 18, 21, 25);
   private int pointCounter = 0;
   private int currentCounter = 0;
   private int savedBankCounter = 0;
@@ -30,6 +32,10 @@ public class BankService {
     resetCurrentCounter();
   }
 
+  public List<Integer> getPoints() {
+    return points;
+  }
+
   private void resetBankCount() {
     pointCounter = 0;
   }
@@ -39,7 +45,7 @@ public class BankService {
   }
 
   private int riseBankCount() {
-    int counter = pointCounter < points.length ? points[pointCounter] : points[points.length - 1];
+    int counter = pointCounter < points.size() ? points.get(pointCounter) : points.get(points.size() - 1);
     pointCounter++;
     return counter;
   }
