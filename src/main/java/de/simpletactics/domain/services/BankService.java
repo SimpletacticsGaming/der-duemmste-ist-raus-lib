@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BankService {
 
-  private final List<Integer> points = List.of(0, 1, 2, 4, 6, 9, 12, 15, 18, 21, 25);
+  private static final List<Integer> points = List.of(0, 1, 2, 4, 6, 9, 12, 15, 18, 21, 25);
   private int pointCounter = 0;
   private int currentCounter = 0;
   private int savedBankCounter = 0;
@@ -32,7 +32,7 @@ public class BankService {
     resetCurrentCounter();
   }
 
-  public List<Integer> getPoints() {
+  public static List<Integer> getPoints() {
     return points;
   }
 
