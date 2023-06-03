@@ -29,6 +29,22 @@ public class Player {
     return state;
   }
 
+  public int getCorrectQuestionsInRound() {
+    return correctQuestionsInRound;
+  }
+
+  public int getWrongQuestionsInRound() {
+    return wrongQuestionsInRound;
+  }
+
+  public int getCorrectQuestionsInGame() {
+    return correctQuestionsInGame;
+  }
+
+  public int getWrongQuestionsInGame() {
+    return wrongQuestionsInGame;
+  }
+
   public void setState(PlayerState state) {
     this.state = state;
   }
