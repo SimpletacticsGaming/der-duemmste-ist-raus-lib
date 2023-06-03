@@ -45,9 +45,8 @@ public class BankService {
   }
 
   private int riseBankCount() {
-    int counter = pointCounter < points.size() ? points.get(pointCounter) : points.get(points.size() - 1);
     pointCounter++;
-    return counter;
+    return pointCounter < points.size() ? points.get(pointCounter) : points.get(points.size() - 1);
   }
 
 }
