@@ -27,9 +27,9 @@ public class QuestionAdapter implements QuestionPort {
     Stack<Question> questions = new Stack<>();
       if (areEnoughQuestionsInDatabase(minQuestionAge)) {
         List<Map<String, Object>> rs = jdbcTemplate.queryForList(
-            "SELECT f.* FROM quiz_fragen AS f LEFT JOIN quiz_connection AS c ON f.id = c.frage_id "
-                + "LEFT JOIN quiz_game AS g ON c.game_id = g.id WHERE g.date is NULL OR DATEDIFF(NOW(),g.date) >= "
-                + minQuestionAge + " ORDER BY RAND() LIMIT " + DEFAULT_AMOUNT_OF_QUESTIONS);
+          "SELECT f.* FROM quiz_fragen AS f LEFT JOIN quiz_connection AS c ON f.id = c.frage_id "
+            + "LEFT JOIN quiz_game AS g ON c.game_id = g.id WHERE g.date is NULL OR DATE_PART('day', NOW() - g.date) >= "
+            + minQuestionAge + " ORDER BY RANDOM() LIMIT " + DEFAULT_AMOUNT_OF_QUESTIONS);
 
         rs.forEach(entryMap -> {
           int id = Integer.parseInt(String.valueOf(entryMap.get("id")));
@@ -51,9 +51,9 @@ public class QuestionAdapter implements QuestionPort {
 
   private int size(int minQuestionAge) {
     List<Map<String, Object>> result = jdbcTemplate.queryForList(
-        "SELECT COUNT(f.id) AS count FROM quiz_fragen AS f LEFT JOIN quiz_connection AS c ON f.id = c.frage_id "
-            + "LEFT JOIN quiz_game AS g ON c.game_id = g.id WHERE g.date is NULL OR DATEDIFF(NOW(),g.date) >= "
-            + minQuestionAge + ";");
+      "SELECT COUNT(f.id) AS count FROM quiz_fragen AS f LEFT JOIN quiz_connection AS c ON f.id = c.frage_id "
+        + "LEFT JOIN quiz_game AS g ON c.game_id = g.id WHERE g.date is NULL OR DATE_PART('day', NOW() - g.date) >= "
+        + minQuestionAge + ";");
     return Integer.parseInt(String.valueOf(result.get(0).get("count")));
   }
 
