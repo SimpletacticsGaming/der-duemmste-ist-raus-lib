@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.simpletactics"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 plugins {
 	java
