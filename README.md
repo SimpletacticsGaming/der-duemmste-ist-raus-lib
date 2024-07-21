@@ -1,3 +1,13 @@
+#### Nexus secrets setzen
+Folgende Variablen müssen in der `gradle.properties` Datei definiert werden:
+
+```
+nexusSnapshotUrl=
+nexusUrl=
+nexusUser=
+nexusPassword=
+```
+
 #### Im Falle eines Gradle Upgrades ####
 
 Nach dem Updaten der Variablen:
