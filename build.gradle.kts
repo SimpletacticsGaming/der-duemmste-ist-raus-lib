@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "de.simpletactics"
@@ -21,11 +20,11 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_11
-	targetCompatibility = JavaVersion.VERSION_11
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 
 	withSourcesJar()
-	withJavadocJar()
+	//withJavadocJar()
 }
 
 repositories {
@@ -34,15 +33,13 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-	// implementation("org.flywaydb:flyway-core")
-	// implementation("org.flywaydb:flyway-mysql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
+		jvmTarget = "21"
 	}
 }
 
